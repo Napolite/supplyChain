@@ -5,6 +5,17 @@ contract SupplyChain {
     address manufacturer;
     uint256 totalProducts;
 
+    struct Product{
+        string productName;
+        string productType;
+        string careLevel;
+        string currentLocation;
+        string depositLocation;
+        string receivingLocation;
+    }
+
+    struct manufacturer{}
+
     modifier onlyManufacturer() {
         require(
             msg.sender == manufacturer,
@@ -16,5 +27,9 @@ contract SupplyChain {
     modifier onlyValidProduct(uint256 productId) {
         require(productId < totalProducts, "Invalid product ID.");
         _;
+    }
+
+    function registerProduct external(){
+
     }
 }
