@@ -11,41 +11,38 @@ contract SupplyChain {
         string currentLocation;
         string depositLocation;
         string receivingLocation;
-        address manufacturer;
+        address seller;
+        address holder;
     }
 
     mapping(string => Product) public product;
-    mapping(address => bool) public manufacturers;
+    mapping(address => bool) public sellers;
 
-    modifier onlyRegisteredManufacturer() {
+    modifier onlyRegisteredseller() {
         require(
-            manufacturers[msg.sender] == true,
-            "Only manufacturers can call this function"
+            sellers[msg.sender] == true,
+            "Only sellers can call this function"
         );
         _;
     }
 
-    modifier onlyManufacturer(uint productId) {
+    modifier onlyseller(uint productId) {
         require(
-            msg.sender == product[productId].manufacturer,
-            "Only the manufacturer can call this function."
+            msg.sender == product[productId].seller,
+            "Only the seller can call this function."
         );
         _;
     }
 
     modifier onlyValidProduct(uint256 productId) {
-        require(productId < totalProducts, "Invalid product ID.");
+        require(product[productId].productName.length > 1, "Invalid product ID.");
         _;
     }
 
-    modifier onlyHolder(productId){
-        require(msg.sender = product[id].holder, 'Not current holder');
-        }
+    event ProductCreated(uint256 productId, address seller);
 
-    event ProductCreated(uint256 productId, address manufacturer);
-
-    function registerManufacturer() public {
-        manufacturers[msg.sender] = true;
+    function registerseller() public {
+        sellers[msg.sender] = true;
     }
 
     function registerProduct(
@@ -55,7 +52,7 @@ contract SupplyChain {
         string calldata _location,
         string calldata _start,
         string calldata _end
-    ) public onlyRegisteredManufacturer {
+    ) public onlyRegisteredseller {
         string memory time = Strings.toString(block.timestamp);
         string memory id = string.concat(_name[0:2], time[3:5]);
 
@@ -72,13 +69,19 @@ contract SupplyChain {
         emit ProductCreated(msg.sender, id);
     }
 
-    function changeProductLocation(string calldata _id, string calldata _location) public onlyHolder{
-        require(keccak256(abi.encodePacked(_location) == keccak256(abi.encodePacked(product[id].currentLocation);)), 'Product already at Location');
-        product[id].location = _location;       
+    function changeProductLocation(
+        string calldata _id,
+        string calldata _location
+    ) public onlySeller {
+        require(
+            keccak256(
+                abi.encodePacked(_location) ==
+                    keccak256(abi.encodePacked(product[id].currentLocation))
+            ),
+            "Product already at Location"
+        );
+        product[id].location = _location;
     }
 
-    function chaangeHolder
-
-    
+    function getProductLocation()
 }
-
