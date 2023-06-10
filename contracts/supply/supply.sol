@@ -88,4 +88,8 @@ contract SupplyChain {
     function getProductLocation(string calldata _id) public onlyValidProduct onlySeller returns(string){
         return product[productID].currentLocation;
     }
+
+    function getProductDetails(string calldata _id) public onlyValidProduct returns(Product memory){
+        return product[_id];
+    }
 }
