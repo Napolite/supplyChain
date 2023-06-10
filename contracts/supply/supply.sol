@@ -52,7 +52,7 @@ contract SupplyChain {
         string calldata _location,
         string calldata _start,
         string calldata _end
-    ) public onlyRegisteredseller {
+    ) public onlyRegisteredseller returns(string) {
         string memory time = Strings.toString(block.timestamp);
         string memory id = string.concat(_name[0:2], time[3:5]);
 
@@ -68,6 +68,7 @@ contract SupplyChain {
         );
 
         emit ProductCreated(msg.sender, id);
+        return id;
     }
 
     function changeProductLocation(
@@ -85,6 +86,6 @@ contract SupplyChain {
     }
 
     function getProductLocation(string calldata productID) public onlyValidProduct returns(string){
-        return 
+        return product[productID].currentLocation;
     }
 }
