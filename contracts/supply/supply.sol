@@ -12,7 +12,7 @@ contract SupplyChain {
         string depositLocation;
         string receivingLocation;
         address seller;
-        address holder;
+        bool exists;
     }
 
     mapping(string => Product) public product;
@@ -35,7 +35,7 @@ contract SupplyChain {
     }
 
     modifier onlyValidProduct(uint256 productId) {
-        require(product[productId].productName.length > 1, "Invalid product ID.");
+        require(product[productId].exists == true, "Product ID not valid");
         _;
     }
 
@@ -63,7 +63,8 @@ contract SupplyChain {
             _location,
             _start,
             _end,
-            msg.sender
+            msg.sender,
+            true
         );
 
         emit ProductCreated(msg.sender, id);
@@ -83,5 +84,7 @@ contract SupplyChain {
         product[id].location = _location;
     }
 
-    function getProductLocation()
+    function getProductLocation(string calldata productID) public onlyValidProduct returns(string){
+        return 
+    }
 }
