@@ -67,4 +67,11 @@ contract SupplyChain {
 
         emit ProductCreated(msg.sender, id);
     }
+
+    function changeProductLocation(string calldata _id, string calldata _location) public onlyHolder{
+        require(keccak256(abi.encodePacked(_location) == keccak256(abi.encodePacked(product[id].currentLocation);)), 'Product already at Location');
+
+        product[id].location = _location;        
+    }
 }
+
